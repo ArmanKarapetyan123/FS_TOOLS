@@ -1,0 +1,49 @@
+import fs from "fs";
+
+
+// async function start(path){
+//     const dirs = await fs.promises.opendir(path);
+
+//     console.log("All the dirent before operation :- ");
+//     // console.log(fs.statSync(dirs.path));
+//     console.log(fs.readdirSync(dirs.path));
+//     console.log(dirs.path)
+//     fs.readdirSync(dirs.path).forEach((dir) => {
+//         console.log(dir)
+//         if(dir.isDirectory()) {
+//             const dirPath = fs.opendirSync(`${path.concat(`/${dir}`)}`);
+//             console.log(path.concat(dir))
+//         }
+        
+//     })
+//     // fs.readdirSync(dirs.path).forEach((dir) => {
+//     //     if(dir){
+//     //         console.log((dir.readSync()).name)
+//     //     }
+//     // })
+// }
+
+// start("./root")
+const dir = './root';
+let test = [];
+
+const start = function(dir){
+    let results = [];
+    let list = fs.readdirSync(dir);
+    console.log(list);
+    test = test.concat(list);
+    list.forEach(function(file){
+        file = dir + '/' + file;
+        // console.log(fs.statSync(file))
+        // console.log(`this is file: ${file}`);
+        const stat = fs.statSync(file);
+        if(stat && stat.isDirectory()){
+            start(file);
+        }else{
+            results.push(file);
+        }
+    });
+    return test;
+}
+
+console.log(...start(dir));
